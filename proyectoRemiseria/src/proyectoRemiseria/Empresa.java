@@ -13,9 +13,11 @@ public class Empresa {
 	}
 
 	public void ingresarVehiculos(String patente,String marca,String modelo,String año,Tipo tipo,double precioxKM) {
-		if(buscarVehiculo(patente)) {
-			
-			
+		if(buscarVehiculo(patente)!= null) {
+			Vehiculo vehiculo = new Vehiculo (patente,marca,modelo,año,tipo,precioxKM);
+			System.out.println("Vehículo ingresado exitosamente.");
+		}else {
+			System.out.println("El vehículo ya existe.");
 		}
 		
 	}
@@ -32,6 +34,26 @@ public class Empresa {
 		}
 		return vehiculoBuscado;
 	}
+	
+	private Vehiculo buscarVehiculoEnAlquilados(String patente) {
+		Vehiculo vehiculoBuscado = null;
+		int i = 0;
+		while(i<this.alquileres.size() && vehiculoBuscado == null) {
+			if(this.alquileres.get(i).getPatente() == patente) {
+				return vehiculoBuscado = this.alquileres.get(i);
+			}else {
+				i++;
+			}
+		}
+		return vehiculoBuscado;
+	}
+	
+	public void alquilarVehiculo(String patente, String dni) {
+		if(buscarVehiculo(patente)!= null && buscarVehiculoEnAlquilados(patente)==null) {
+			
+		}
+	}
+	
 	
 	public ArrayList getVehiculosDisponibles() {
 		return vehiculosDisponibles;
