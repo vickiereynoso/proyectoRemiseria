@@ -11,8 +11,7 @@ public class Vehiculo {
 	private double kmActual;
 	
 	
-	public Vehiculo(String patente, String marca, String modelo, String año, Tipo tipo, double precioxKM,
-			double kmActual) {
+	public Vehiculo(String patente, String marca, String modelo, String año, Tipo tipo, double precioxKM) {
 		this.patente = patente;
 		this.marca = marca;
 		this.modelo = modelo;
