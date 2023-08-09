@@ -13,7 +13,6 @@ public class Vehiculo {
 	
 	public Vehiculo(String patente, String marca, String modelo, String año, Tipo tipo, double precioxKM,
 			double kmActual) {
-		super();
 		this.patente = patente;
 		this.marca = marca;
 		this.modelo = modelo;
