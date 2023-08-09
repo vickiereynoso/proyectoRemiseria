@@ -50,9 +50,19 @@ public class Empresa {
 	
 	public void alquilarVehiculo(String patente, String dni) {
 		if(buscarVehiculo(patente)!= null && buscarVehiculoEnAlquilados(patente)==null) {
-			
+			this.alquileres.add(buscarVehiculo(patente));
+			System.out.println("Alquiler efectuado.");
+		}else if(buscarVehiculo(patente)== null) {
+			System.out.println("No existe el vehículo.");
 		}
 	}
+	
+	public void listarVehiculosAlquilados() {
+		for(Vehiculo v : this.alquileres) {
+			System.out.println(v);
+		}
+	}
+	
 	
 	
 	public ArrayList getVehiculosDisponibles() {
