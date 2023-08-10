@@ -11,7 +11,7 @@ public class Vehiculo {
 	private double kmActual;
 	
 	
-	public Vehiculo(String patente, String marca, String modelo, String año, Tipo tipo, double precioxKM) {
+	public Vehiculo(String patente, String marca, String modelo, String año, Tipo tipo, double precioxKM, double kmActual) {
 		this.patente = patente;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -87,7 +87,7 @@ public class Vehiculo {
 	}
 
 
-	private void setKmActual(double kmActual) {
+	public void setKmActual(double kmActual) {
 		this.kmActual = kmActual;
 	}
 

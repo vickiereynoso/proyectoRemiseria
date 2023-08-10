@@ -55,7 +55,7 @@ public class Alquiler {
 		this.kilometrajeInicial = kilometrajeInicial;
 	}
 
-	private void setKilometrajeFinal(double kilometrajeFinal) {
+	public void setKilometrajeFinal(double kilometrajeFinal) {
 		this.kilometrajeFinal = kilometrajeFinal;
 	}
 

@@ -13,9 +13,9 @@ public class Empresa {
 	}
 
 	
-	public void ingresarVehiculos(String patente,String marca,String modelo,String año,Tipo tipo,double precioxKM) {
-		if(buscarVehiculo(patente)!= null) {
-			Vehiculo vehiculo = new Vehiculo (patente,marca,modelo,año,tipo,precioxKM);
+	public void ingresarVehiculos(String patente,String marca,String modelo,String año,Tipo tipo,double precioxKM, double kmActual) {
+		if(buscarVehiculo(patente)== null) {
+			this.vehiculosDisponibles.add(new Vehiculo (patente,marca,modelo,año,tipo,precioxKM, kmActual)) ;
 			System.out.println("Vehículo ingresado exitosamente.");
 		}else {
 			System.out.println("El vehículo ya existe.");
@@ -41,7 +41,7 @@ public class Empresa {
 		int i = 0;
 		while(i<this.alquileres.size() && vehiculoBuscado == null) {
 			if(this.alquileres.get(i).getDni() == dni) {
-				return vehiculoBuscado = this.alquileres.get(i);
+				vehiculoBuscado = this.alquileres.get(i);
 			}else {
 				i++;
 			}
@@ -49,29 +49,54 @@ public class Empresa {
 		return vehiculoBuscado;
 	}
 	
-
+	private Alquiler buscarVehiculoEnAlquilados2(String patente) {
+		Alquiler vehiculoBuscado = null;
+		int i = 0;
+		while(i<this.alquileres.size() && vehiculoBuscado == null) {
+			if(this.alquileres.get(i).getVehiculoAlquilado().getPatente() == patente) {
+				vehiculoBuscado = this.alquileres.get(i);
+			}else {
+				i++;
+			}
+		}
+		return vehiculoBuscado;
+	}
 	
 	public void alquilarVehiculo(String patente, String dni) {
-		if(buscarVehiculo(patente)!= null && buscarVehiculoEnAlquilados(patente)==null) {
+		if(buscarVehiculo(patente) == null) {
+			System.out.println("No existe el vehículo.");
+		}else if(buscarVehiculoEnAlquilados2(patente)== null) {
 			this.alquileres.add(new Alquiler(dni, buscarVehiculo(patente) ));
 			System.out.println("Alquiler efectuado.");
-		}else if(buscarVehiculo(patente)== null) {
-			System.out.println("No existe el vehículo.");
+		}else if(buscarVehiculoEnAlquilados2(patente)!= null) {
+			System.out.println("Vehículo no disponible actualmente.");
 		}
 	}
 	
 	public void listarVehiculosAlquilados() {
 		for(Alquiler a : this.alquileres) {
 			System.out.println(a);
+			System.out.println("");
 		}
 	}
 	
-	
-	public void realizarDevolucion(String dni) {
+	public void listarVehiculos() {
+		for(Vehiculo v : this.vehiculosDisponibles) {
+			System.out.println(v);
+			System.out.println("");
+		}
+	}
+	public void realizarDevolucion(String dni, double kmFinal) {
+		if(buscarVehiculoEnAlquilados(dni)!= null) {
+			buscarVehiculoEnAlquilados(dni).setKilometrajeFinal(kmFinal);
+			buscarVehiculoEnAlquilados(dni).getVehiculoAlquilado().setKmActual(buscarVehiculoEnAlquilados(dni).getVehiculoAlquilado().getKmActual()+kmFinal); //Sumo los nuevos km al kilometraje viejo.
+			double importe =  (buscarVehiculoEnAlquilados(dni).getKilometrajeFinal()) * (buscarVehiculoEnAlquilados(dni).getVehiculoAlquilado().getPrecioxKM());
+			System.out.println("Kilometraje recorrido: "+ buscarVehiculoEnAlquilados(dni).getKilometrajeFinal() +" km."+ "\n" + "Importe $: "+ importe);
+			eliminarAlquiler(dni);	
+		}else {
+			System.out.println("Error.");
+		}
 		
-		double importe =  (buscarVehiculoEnAlquilados(dni).getKilometrajeFinal()) * (buscarVehiculoEnAlquilados(dni).getVehiculoAlquilado().getPrecioxKM());
-		System.out.println("Kilometraje recorrido: "+ buscarVehiculoEnAlquilados(dni).getKilometrajeFinal() +" km."+ "\n" + "Importe $: "+ importe);
-		eliminarAlquiler(dni);	
 	}
 	
 	
