@@ -5,16 +5,15 @@ import java.time.LocalDate;
 public class Alquiler {
 
 	private String dni;
-	private LocalDate fecha = LocalDate.now();
+	private LocalDate fecha;
 	private Vehiculo vehiculoAlquilado;
 	private double kilometrajeInicial;
 	private double kilometrajeFinal = 0;
 	
-	public Alquiler(String dni, LocalDate fecha, Vehiculo vehiculoAlquilado, double kilometrajeInicial,
-			double kilometrajeFinal) {
+	public Alquiler(String dni, Vehiculo vehiculoAlquilado) {
 		super();
 		this.dni = dni;
-		this.fecha = fecha;
+		this.fecha = LocalDate.now();
 		this.vehiculoAlquilado = vehiculoAlquilado;
 		this.kilometrajeInicial = kilometrajeInicial;
 		this.kilometrajeFinal = kilometrajeFinal;

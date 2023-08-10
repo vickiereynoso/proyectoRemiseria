@@ -5,13 +5,14 @@ import java.util.ArrayList;
 public class Empresa {
 
 	private ArrayList<Vehiculo> vehiculosDisponibles;
-	private ArrayList<Vehiculo> alquileres;
+	private ArrayList<Alquiler> alquileres;
 	
 	public Empresa() {
 		this.vehiculosDisponibles = new ArrayList<>();
 		this.alquileres = new ArrayList<>();
 	}
 
+	
 	public void ingresarVehiculos(String patente,String marca,String modelo,String año,Tipo tipo,double precioxKM) {
 		if(buscarVehiculo(patente)!= null) {
 			Vehiculo vehiculo = new Vehiculo (patente,marca,modelo,año,tipo,precioxKM);
@@ -35,11 +36,11 @@ public class Empresa {
 		return vehiculoBuscado;
 	}
 	
-	private Vehiculo buscarVehiculoEnAlquilados(String patente) {
-		Vehiculo vehiculoBuscado = null;
+	private Alquiler buscarVehiculoEnAlquilados(String dni) {
+		Alquiler vehiculoBuscado = null;
 		int i = 0;
 		while(i<this.alquileres.size() && vehiculoBuscado == null) {
-			if(this.alquileres.get(i).getPatente() == patente) {
+			if(this.alquileres.get(i).getDni() == dni) {
 				return vehiculoBuscado = this.alquileres.get(i);
 			}else {
 				i++;
@@ -48,9 +49,11 @@ public class Empresa {
 		return vehiculoBuscado;
 	}
 	
+
+	
 	public void alquilarVehiculo(String patente, String dni) {
 		if(buscarVehiculo(patente)!= null && buscarVehiculoEnAlquilados(patente)==null) {
-			this.alquileres.add(buscarVehiculo(patente));
+			this.alquileres.add(new Alquiler(dni, buscarVehiculo(patente) ));
 			System.out.println("Alquiler efectuado.");
 		}else if(buscarVehiculo(patente)== null) {
 			System.out.println("No existe el vehículo.");
@@ -58,11 +61,33 @@ public class Empresa {
 	}
 	
 	public void listarVehiculosAlquilados() {
-		for(Vehiculo v : this.alquileres) {
-			System.out.println(v);
+		for(Alquiler a : this.alquileres) {
+			System.out.println(a);
 		}
 	}
 	
+	
+	public void realizarDevolucion(String dni) {
+		
+		double importe =  (buscarVehiculoEnAlquilados(dni).getKilometrajeFinal()) * (buscarVehiculoEnAlquilados(dni).getVehiculoAlquilado().getPrecioxKM());
+		System.out.println("Kilometraje recorrido: "+ buscarVehiculoEnAlquilados(dni).getKilometrajeFinal() +" km."+ "\n" + "Importe $: "+ importe);
+		eliminarAlquiler(dni);	
+	}
+	
+	
+	private void eliminarAlquiler(String dni) {
+		Alquiler vehiculoBuscado = null;
+		int i = 0;
+		while(i<this.alquileres.size() && vehiculoBuscado == null) {
+			if(this.alquileres.get(i).getDni() == dni) {
+				this.alquileres.remove(i);
+				System.out.println("Se ha liberado el vehiculo de la lista de alquilados.");
+			}else {
+				i++;
+			}
+		}
+		
+	}
 	
 	
 	public ArrayList getVehiculosDisponibles() {
